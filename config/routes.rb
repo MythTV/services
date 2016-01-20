@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  namespace :music do
+    match 'data/index', to: 'data#index', via: [:get, :head ]
+    match 'data', to: 'data#index', via: [:get, :head ]
+  end
+
   namespace :samples do
     match 'video/index', to: 'video#index', via: [:get, :head ]
     match 'video', to: 'video#index', via: [:get, :head ]
