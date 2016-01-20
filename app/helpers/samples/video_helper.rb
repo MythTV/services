@@ -1,0 +1,2 @@
+module Samples::VideoHelper
+end
