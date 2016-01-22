@@ -87,7 +87,7 @@ class InitialChannelIconDb < ActiveRecord::Migration
       t.integer     :transportid
       t.integer     :networkid
       t.integer     :serviceid
-      t.integer     :channame
+      t.text        :channame
       t.integer     :icon_id
     end
     add_index :pending_dvb, [:transportid, :networkid, :serviceid, :ip], unique: true, name: 'pd_index'
