@@ -13,66 +13,72 @@
 
 ActiveRecord::Schema.define(version: 20160119223446) do
 
-  create_table "atsc_ids", force: :cascade do |t|
+  create_table "atsc_ids", id: false, force: :cascade do |t|
     t.integer "transportid"
     t.integer "major_chan"
     t.integer "minor_chan"
     t.integer "icon_id"
   end
 
-  add_index "atsc_ids", ["transportid", "major_chan", "minor_chan"], name: "index_atsc_ids_on_transportid_and_major_chan_and_minor_chan", unique: true
+  add_index "atsc_ids", ["transportid", "major_chan", "minor_chan"], name: "atsc_idx", unique: true
 
-  create_table "blocked_atsc_ids", force: :cascade do |t|
+  create_table "blocked_atsc_ids", id: false, force: :cascade do |t|
     t.integer "transportid"
     t.integer "major_chan"
     t.integer "minor_chan"
     t.integer "icon_id"
   end
 
-  add_index "blocked_atsc_ids", ["transportid", "major_chan", "minor_chan", "icon_id"], name: "b_atsc_index", unique: true
+  add_index "blocked_atsc_ids", ["transportid", "major_chan", "minor_chan", "icon_id"], name: "b_atsc_idx", unique: true
 
-  create_table "blocked_callsigns", force: :cascade do |t|
+  create_table "blocked_callsigns", id: false, force: :cascade do |t|
     t.text    "callsign"
     t.integer "icon_id"
   end
 
-  add_index "blocked_callsigns", ["callsign", "icon_id"], name: "index_blocked_callsigns_on_callsign_and_icon_id", unique: true
+  add_index "blocked_callsigns", ["callsign", "icon_id"], name: "b_callsign_idx", unique: true
 
-  create_table "blocked_dvb_ids", force: :cascade do |t|
+  create_table "blocked_dvb_ids", id: false, force: :cascade do |t|
     t.integer "transportid"
     t.integer "networkid"
     t.integer "serviceid"
     t.integer "icon_id"
   end
 
-  add_index "blocked_dvb_ids", ["transportid", "networkid", "serviceid", "icon_id"], name: "b_dvb_index", unique: true
+  add_index "blocked_dvb_ids", ["transportid", "networkid", "serviceid", "icon_id"], name: "b_dvb_idx", unique: true
 
-  create_table "blocked_ips", force: :cascade do |t|
-    t.integer "ip"
+  create_table "blocked_ips", primary_key: "ip", force: :cascade do |t|
     t.integer "expire"
     t.integer "user"
     t.integer "reason"
   end
 
-  create_table "blocked_xmltvids", force: :cascade do |t|
+  create_table "blocked_xmltvids", id: false, force: :cascade do |t|
     t.text    "xmltvid"
     t.integer "icon_id"
   end
 
-  create_table "callsigns", force: :cascade do |t|
+  add_index "blocked_xmltvids", ["xmltvid", "icon_id"], name: "b_xmltvid_idx", unique: true
+
+  create_table "callsigns", id: false, force: :cascade do |t|
     t.text    "callsign"
-    t.text    "primary_key"
     t.integer "icon_id"
   end
 
-  create_table "dvb_ids", force: :cascade do |t|
+  add_index "callsigns", ["callsign"], name: "callsigns_idx", unique: true
+
+  create_table "db_vers", id: false, force: :cascade do |t|
+    t.integer "vers"
+  end
+
+  create_table "dvb_ids", id: false, force: :cascade do |t|
     t.integer "transportid"
     t.integer "networkid"
     t.integer "serviceid"
     t.integer "icon_id"
   end
 
-  add_index "dvb_ids", ["transportid", "networkid", "serviceid"], name: "index_dvb_ids_on_transportid_and_networkid_and_serviceid", unique: true
+  add_index "dvb_ids", ["transportid", "networkid", "serviceid"], name: "dvb_idx", unique: true
 
   create_table "icons", force: :cascade do |t|
     t.integer "source_id"
@@ -84,7 +90,7 @@ ActiveRecord::Schema.define(version: 20160119223446) do
 
   add_index "icons", ["source_id", "source_tag"], name: "index_icons_on_source_id_and_source_tag", unique: true
 
-  create_table "pending_atsc", force: :cascade do |t|
+  create_table "pending_atsc", id: false, force: :cascade do |t|
     t.integer "ip"
     t.integer "transportid"
     t.integer "major_chan"
@@ -93,27 +99,27 @@ ActiveRecord::Schema.define(version: 20160119223446) do
     t.integer "icon_id"
   end
 
-  add_index "pending_atsc", ["transportid", "major_chan", "minor_chan", "ip"], name: "pa_index", unique: true
+  add_index "pending_atsc", ["transportid", "major_chan", "minor_chan", "ip"], name: "pa_idx", unique: true
 
-  create_table "pending_callsign", force: :cascade do |t|
+  create_table "pending_callsign", id: false, force: :cascade do |t|
     t.integer "ip"
     t.text    "callsign"
     t.text    "channame"
     t.integer "icon_id"
   end
 
-  add_index "pending_callsign", ["callsign", "ip"], name: "index_pending_callsign_on_callsign_and_ip", unique: true
+  add_index "pending_callsign", ["callsign", "ip"], name: "pc_idx", unique: true
 
-  create_table "pending_dvb", force: :cascade do |t|
+  create_table "pending_dvb", id: false, force: :cascade do |t|
     t.integer "ip"
     t.integer "transportid"
     t.integer "networkid"
     t.integer "serviceid"
-    t.integer "channame"
+    t.text    "channame"
     t.integer "icon_id"
   end
 
-  add_index "pending_dvb", ["transportid", "networkid", "serviceid", "ip"], name: "pd_index", unique: true
+  add_index "pending_dvb", ["transportid", "networkid", "serviceid", "ip"], name: "pd_idx", unique: true
 
   create_table "pending_xmltvid", force: :cascade do |t|
     t.integer "ip"
@@ -122,17 +128,18 @@ ActiveRecord::Schema.define(version: 20160119223446) do
     t.integer "icon_id"
   end
 
-  add_index "pending_xmltvid", ["xmltvid", "ip"], name: "index_pending_xmltvid_on_xmltvid_and_ip", unique: true
+  add_index "pending_xmltvid", ["xmltvid", "ip"], name: "px_idx", unique: true
 
-  create_table "sources", force: :cascade do |t|
+  create_table "sources", primary_key: "source_id", force: :cascade do |t|
     t.text "name"
     t.text "url"
   end
 
-  create_table "xmltvids", force: :cascade do |t|
+  create_table "xmltvids", id: false, force: :cascade do |t|
     t.text    "xmltvid"
-    t.text    "primary_key"
     t.integer "icon_id"
   end
+
+  add_index "xmltvids", ["xmltvid"], name: "xmltvids_idx", unique: true
 
 end
