@@ -1,0 +1,15 @@
+<h1>Source#index</h1>
+<p>Find me in app/views/source/index.html.erb</p>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Url</th>
+  </tr>
+ 
+  <% @source.each do |source| %>
+    <tr>
+      <td><%= source.name %></td>
+      <td><%= source.url %></td>
+    </tr>
+  <% end %>
+</table>
