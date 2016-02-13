@@ -1,5 +1,6 @@
 class ChannelIconController < ApplicationController
   def ping
+    render plain:
     # Current service returns time since epoch in seconds
     # but this will do for now, and is nicer
     @current = Time.current()
