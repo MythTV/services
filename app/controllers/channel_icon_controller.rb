@@ -7,7 +7,10 @@ class ChannelIconController < ApplicationController
   end
 
   def lookup
-    @icons = ChannelIcon::Icon.find('39563')
+    if params[:callsign]
+      callsign = ChannelIcon::Callsign.find(params[:callsign])
+      @icons = ChannelIcon::Icon.find(callsign.icon_id)
+    end
   end
 
   def check_block
