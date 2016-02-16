@@ -7,7 +7,7 @@ class ChannelIconController < ApplicationController
   end
 
   def lookup
-    @icons = Icon.find('39563')
+    @icons = ChannelIcon::Icon.find('39563')
   end
 
   def check_block

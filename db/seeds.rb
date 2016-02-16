@@ -5,7 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-sources = Source.create([
+sources = ChannelIcon::Source.create([
             { name: 'LyngSat', url: 'http://lyngsat-logo.com/logo'},
             { name: 'PBS', url: 'http://www.pbs.org/images/stations/standard'},
             { name: 'XMLTV Sweden', url: 'http://xmltv.se/chanlogos'},
