@@ -8,8 +8,8 @@ class ChannelIconController < ApplicationController
 
   def lookup
     if params[:callsign]
-      callsign = ChannelIcon::Callsign.find(params[:callsign])
-      @icons = ChannelIcon::Icon.find(callsign.icon_id)
+      @search = 'callsign'
+      @icon = ChannelIcon::Callsign.find_by_callsign(params[:callsign])
     end
   end
 
