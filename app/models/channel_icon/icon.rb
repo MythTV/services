@@ -2,6 +2,7 @@ class ChannelIcon::Icon < ActiveRecord::Base
   self.primary_key = 'icon_id'
   belongs_to    :source
   has_many      :callsigns
+  has_many      :xmltvids
 
   def fullUrl
     source = ChannelIcon::Source.find_by_source_id(self.source_id)

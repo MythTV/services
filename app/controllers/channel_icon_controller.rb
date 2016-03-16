@@ -7,11 +7,19 @@ class ChannelIconController < ApplicationController
   end
 
   def lookup
+    # TODO: validate parameters.
     if params[:callsign]
       @search = 'callsign'
       callsign = ChannelIcon::Callsign.find_by_callsign(params[:callsign])
       if !callsign.nil?
         @icon = ChannelIcon::Icon.find_by_icon_id(callsign.icon_id)
+      end
+    end
+    if params[:xmltvid]
+      @search = 'xmltvid'
+      xmltvid = ChannelIcon::Xmltvid.find_by_xmltvid(params[:xmltvid])
+      if !xmltvid.nil?
+        @icon = ChannelIcon::Icon.find_by_icon_id(xmltvid.icon_id)
       end
     end
   end
