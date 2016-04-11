@@ -6,7 +6,8 @@ class ChannelIcon::Icon < ActiveRecord::Base
 
   def fullUrl
     source = ChannelIcon::Source.find_by_source_id(self.source_id)
-    @fullUrl = source.url + '/' + self.icon
+    url = source.url + '/' + self.icon
+    @fullUrl = url.sub(%r|logo/hires|, 'hires')
   end
   def iconID
     @iconID = self.icon_id.to_s
