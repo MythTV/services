@@ -51,7 +51,7 @@ class ChannelIconController < ApplicationController
       #@icons = ChannelIcon::Icon.find_by_icon_id(callsigns)
       ################################
       # TODO: Multi pass searching
-      @icons = ChannelIcon::Icon.where("enabled = 1 AND name LIKE ?", "%#{params[:s]}%")
+      @icons = ChannelIcon::Icon.name_contains("#{params[:s]}")
     end
   end
 

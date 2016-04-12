@@ -4,6 +4,9 @@ class ChannelIcon::Icon < ActiveRecord::Base
   has_many      :callsigns
   has_many      :xmltvids
 
+  scope :name_contains, -> (name) { where("enabled = 1 AND name LIKE ?", "%#{name}%") }
+  scope :name_startswith, -> (name) { where("enabled = 1 AND name LIKE ?", "#{name}%") }
+
   def fullUrl
     source = ChannelIcon::Source.find_by_source_id(self.source_id)
     url = source.url + '/' + self.icon
