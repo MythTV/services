@@ -5,6 +5,7 @@ class ChannelIcon::Icon < ActiveRecord::Base
   has_many      :xmltvids
 
   scope :name_contains, -> (name) { where("enabled = 1 AND name LIKE ?", "%#{name}%") }
+  scope :name_is, -> (name) { where("enabled = 1 AND name = ?", "#{name}") }
   scope :name_startswith, -> (name) { where("enabled = 1 AND name LIKE ?", "#{name}%") }
 
   def fullUrl
