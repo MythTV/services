@@ -21,6 +21,8 @@ class ChannelIconController < ApplicationController
       if !xmltvid.nil?
         @icon = ChannelIcon::Icon.find_by_icon_id(xmltvid.icon_id)
       end
+      # TODO: return the following error when not found
+      # "xmltvid","ERROR:  Unknown xmltvid","",""
     end
   end
 
@@ -50,8 +52,20 @@ class ChannelIconController < ApplicationController
       # - Find the icons from the callsigns
       #@icons = ChannelIcon::Icon.find_by_icon_id(callsigns)
       ################################
-      # TODO: Multi pass searching
-      @icons = ChannelIcon::Icon.name_contains("#{params[:s]}")
+
+      ################################
+      # Multi pass searching
+      # Pass 1: Straight lookup
+      @icons = ChannelIcon::Icon.name_is("#{params[:s]}")
+      # Pass 2: Starts with the search string
+      @icons |= ChannelIcon::Icon.name_startswith("#{params[:s]}")
+      # Pass 3: Contains the search string
+      @icons |= ChannelIcon::Icon.name_contains("#{params[:s]}")
+      # Pass 4: Pull apart the search string looking for bits of it,
+      # TODO: excluding commonly used words "(a|fox|the|tv|channel)"
+      "#{params[:s]}".split.each do |q|
+        @icons |= ChannelIcon::Icon.name_contains(q)
+      end
     end
   end
 
