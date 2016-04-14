@@ -18,9 +18,6 @@ Rails.application.routes.draw do
     match 'video', to: 'video#index', via: [:get, :head ]
   end
 
-  get 'sources/index' => 'sources#index'
-  get 'sources' => 'sources#index'
-
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
