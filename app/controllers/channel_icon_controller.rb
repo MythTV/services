@@ -20,9 +20,15 @@ class ChannelIconController < ApplicationController
       xmltvid = ChannelIcon::Xmltvid.find_by_xmltvid(params[:xmltvid])
       if !xmltvid.nil?
         @icon = ChannelIcon::Icon.find_by_icon_id(xmltvid.icon_id)
+      else
+        # return the following error when not found
+        # "xmltvid","ERROR:  Unknown xmltvid","",""
+        erroricon = ChannelIcon::Icon.new
+        erroricon.source_id = -1
+        erroricon.icon_id = ""
+        erroricon.name = ""
+        @icon = erroricon
       end
-      # TODO: return the following error when not found
-      # "xmltvid","ERROR:  Unknown xmltvid","",""
     end
   end
 
