@@ -64,13 +64,14 @@ class ChannelIconController < ApplicationController
       # Pass 1: Straight lookup
       @icons = ChannelIcon::Icon.name_is("#{params[:s]}")
       # Pass 2: Starts with the search string
-      @icons |= ChannelIcon::Icon.name_startswith("#{params[:s]}")
+      @icons |= ChannelIcon::Icon.name_startswith("#{params[:s]}").order(:name)
       # Pass 3: Contains the search string
-      @icons |= ChannelIcon::Icon.name_contains("#{params[:s]}")
+      @icons |= ChannelIcon::Icon.name_contains("#{params[:s]}").order(:name)
       # Pass 4: Pull apart the search string looking for bits of it,
-      # TODO: excluding commonly used words "(a|fox|the|tv|channel)"
+      # excluding commonly used words and plain numbers
       "#{params[:s]}".split.each do |q|
-        @icons |= ChannelIcon::Icon.name_contains(q)
+        next if q.match(/([[:digit:]]+|a|fox|sky|the|tv|channel|sports)/i)
+        @icons |= ChannelIcon::Icon.name_contains(q).order(:name)
       end
     end
   end
