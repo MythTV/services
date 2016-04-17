@@ -1,8 +1,11 @@
-<% @icons.each do |icon|
+<%
+if !@icons.nil?
+ @icons.each do |icon|
 if !icon.blank? %>
 <%= 
 '"' + icon.iconID + '","' + icon.iconName + '","' + icon.fullUrl + '"'
 %>
+<% end %>
 <% end %>
 <% end %>
 #

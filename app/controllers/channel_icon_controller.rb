@@ -49,7 +49,7 @@ class ChannelIconController < ApplicationController
     # param csv= which has the following data escaped
     # - Name, Xmltvid, Callsign, TransportId, AtscMajorChan, AtscMinorChan,
     # - NetworkId, ServiceId
-    if params[:s]
+    if params[:s] && !params[:s].empty?
       ################################
       # NOTE: This in theory should lookup the callsign table, but the existing
       # code does not do this, so initially implement a compatible lookup
