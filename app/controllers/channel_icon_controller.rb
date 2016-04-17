@@ -70,7 +70,7 @@ class ChannelIconController < ApplicationController
       # Pass 4: Pull apart the search string looking for bits of it,
       # excluding commonly used words and plain numbers
       "#{params[:s]}".split.each do |q|
-        next if q.match(/([[:digit:]]+|a|fox|sky|the|tv|channel|sports)/i)
+        next if q.match(/([[:digit:]]+|a|fox|sky|the|tv|channel|sports|one|two|three|four|hd)/i)
         @icons |= ChannelIcon::Icon.name_contains(q).order(:name)
       end
     end
