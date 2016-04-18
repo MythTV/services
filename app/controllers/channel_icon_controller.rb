@@ -1,4 +1,5 @@
 class ChannelIconController < ApplicationController
+  require 'csv'
   def ping
     render plain:
     # Current service returns time since epoch in seconds
@@ -8,6 +9,9 @@ class ChannelIconController < ApplicationController
 
   def lookup
     # TODO: validate parameters.
+    # TODO: respond with json when requested
+    # TODO: return the following error when not found
+    # "callsign","ERROR:  Unknown callsign","",""
     if params[:callsign]
       @search = 'callsign'
       callsign = ChannelIcon::Callsign.find_by_callsign(params[:callsign].downcase)
@@ -40,6 +44,14 @@ class ChannelIconController < ApplicationController
     # - ChannelId,
     # - Name, Xmltvid, Callsign, TransportId, AtscMajorChan, AtscMinorChan,
     # - NetworkId, ServiceId
+    # Multiple requests are separated by '\n'
+    if params[:csv] && !params[:csv].empty?
+      queries = "#{params[:csv]}".split(/\n/)
+      queries.each do |q|
+        (chanid, name, xmltvid, callsign, transportid, atscmajor, atscminor, networkid, serviceid) =
+          CSV.parse(q)
+      end
+    end
   end
 
   def search
@@ -73,6 +85,10 @@ class ChannelIconController < ApplicationController
         next if q.match(/([[:digit:]]+|a|fox|sky|the|tv|channel|sports|one|two|three|four|hd)/i)
         @icons |= ChannelIcon::Icon.name_contains(q).order(:name)
       end
+    end
+    if params[:csv] && !params[:csv].empty?
+      (name, xmltvid, callsign, transportid, atscmajor, atscminor, networkid, serviceid) =
+        CSV.parse("#{params[:csv]}")
     end
   end
 
