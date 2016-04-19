@@ -9,13 +9,9 @@ class ChannelIcon::Icon < ActiveRecord::Base
   scope :name_startswith, ->(name) { where("enabled = 1 AND name LIKE ?", "#{name}%") }
 
   def fullUrl
-    if(self.source_id == -1)
-      @fullUrl = "ERROR:  Unknown xmltvid"
-    else
-      source = ChannelIcon::Source.find_by_source_id(self.source_id)
-      url = source.url + '/' + self.icon
-      @fullUrl = url.sub(%r|logo/hires|, 'hires')
-    end
+    source = ChannelIcon::Source.find_by_source_id(self.source_id)
+    url = source.url + '/' + self.icon
+    @fullUrl = url.sub(%r|logo/hires|, 'hires')
   end
   def iconID
     @iconID = self.icon_id.to_s

@@ -10,28 +10,28 @@ class ChannelIconController < ApplicationController
   def lookup
     # TODO: validate parameters.
     # TODO: respond with json when requested
-    # TODO: return the following error when not found
+    # return the following error when not found
     # "callsign","ERROR:  Unknown callsign","",""
     if params[:callsign]
       @search = 'callsign'
       callsign = ChannelIcon::Callsign.find_by_callsign(params[:callsign].downcase)
       if !callsign.nil?
-        @icon = ChannelIcon::Icon.find_by_icon_id(callsign.icon_id)
+        iconQuery = ChannelIcon::IconRecord.new
+        iconQuery.query = 'callsign'
+        @icon = iconQuery.find_by_icon_id(callsign.icon_id)
+      else
+        @icon = ChannelIcon::IconRecord.new.error_callsign
       end
     end
     if params[:xmltvid]
       @search = 'xmltvid'
       xmltvid = ChannelIcon::Xmltvid.find_by_xmltvid(params[:xmltvid])
       if !xmltvid.nil?
-        @icon = ChannelIcon::Icon.find_by_icon_id(xmltvid.icon_id)
+        iconQuery = ChannelIcon::IconRecord.new
+        iconQuery.query = 'xmltvid'
+        @icon = iconQuery.find_by_icon_id(xmltvid.icon_id)
       else
-        # return the following error when not found
-        # "xmltvid","ERROR:  Unknown xmltvid","",""
-        erroricon = ChannelIcon::Icon.new
-        erroricon.source_id = -1
-        erroricon.icon_id = ""
-        erroricon.name = ""
-        @icon = erroricon
+        @icon = ChannelIcon::IconRecord.new.error_xmltvid
       end
     end
   end
