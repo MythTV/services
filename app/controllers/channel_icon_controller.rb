@@ -1,4 +1,5 @@
 class ChannelIconController < ApplicationController
+  skip_before_action :verify_authenticity_token  # else POST requests to the API fail CSRF checks
   require 'csv'
   def ping
     render plain:
@@ -29,6 +30,7 @@ class ChannelIconController < ApplicationController
     # - Name, Xmltvid, Callsign, TransportId, AtscMajorChan, AtscMinorChan,
     # - NetworkId, ServiceId
     # Multiple requests are separated by '\n'
+    @icons = []
     if params[:csv] && !params[:csv].empty?
       queries = "#{params[:csv]}".split(/\n/)
       queries.each do |q|
@@ -45,6 +47,7 @@ class ChannelIconController < ApplicationController
     # param csv= which has the following data escaped
     # - Name, Xmltvid, Callsign, TransportId, AtscMajorChan, AtscMinorChan,
     # - NetworkId, ServiceId
+    @icons = []
     if params[:s] && !params[:s].empty?
       ################################
       # NOTE: This in theory should lookup the callsign table, but the existing
@@ -58,7 +61,7 @@ class ChannelIconController < ApplicationController
       ################################
       # Multi pass searching
       # Pass 1: Straight lookup
-      @icons = ChannelIcon::Icon.name_is("#{params[:s]}")
+      @icons |= ChannelIcon::Icon.name_is("#{params[:s]}")
       # Pass 2: Starts with the search string
       @icons |= ChannelIcon::Icon.name_startswith("#{params[:s]}").order(:name)
       # Pass 3: Contains the search string
