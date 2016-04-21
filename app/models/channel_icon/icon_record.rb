@@ -33,6 +33,7 @@ class ChannelIcon::IconRecord
   end
   def not_found
     @found = false
+    @icon = self
   end
 
   # Helper methods
