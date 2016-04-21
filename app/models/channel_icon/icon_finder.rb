@@ -48,6 +48,12 @@ class ChannelIcon::IconFinder
         @icons.push(icon)
         next
       end
+      icon = self.find_by_callsign(callsign)
+      if icon.found
+        icon.chanid = chanid
+        @icons.push(icon)
+        next
+      end
       if !(tsid == 0 && netid == 0 && serviceid == 0)
         icon = self.find_by_dvb_tuple(netid,tsid,serviceid)
         if icon.found
