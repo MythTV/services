@@ -32,11 +32,8 @@ class ChannelIconController < ApplicationController
     # Multiple requests are separated by '\n'
     @icons = []
     if params[:csv] && !params[:csv].empty?
-      queries = "#{params[:csv]}".split(/\n/)
-      queries.each do |q|
-        (chanid, name, xmltvid, callsign, transportid, atscmajor, atscminor, networkid, serviceid) =
-          CSV.parse(q)
-      end
+      m_Query = ChannelIcon::IconFinder.new
+      @icons |= m_Query.find_missing("#{params[:csv]}")
     end
   end
 
