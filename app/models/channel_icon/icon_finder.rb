@@ -40,16 +40,14 @@ class ChannelIcon::IconFinder
     # chanid, name, xmltvid, callsign, transportid, atscmajor, atscminor, networkid, serviceid
     @icons = []
     CSV.parse(q) do |query|
-      chanid = query[0]
-      icon = self.find_by_xmltvid(query[2]) #xmltvid
+      chanid = query[0]; name = query[1]; xmltvid = query[2]; callsign = query[3]; tsid = query[4]
+      atscmajor = query[5]; atscminor = query[6]; netid = query[7]; serviceid = query[8]
+      icon = self.find_by_xmltvid(xmltvid) #xmltvid
       if icon.found
         icon.chanid = chanid
         @icons.push(icon)
         next
       end
-      tsid = query[4]
-      netid = query[7]
-      serviceid = query[8]
       if !(tsid == 0 && netid == 0 && serviceid == 0)
         icon = self.find_by_dvb_tuple(netid,tsid,serviceid)
         if icon.found
