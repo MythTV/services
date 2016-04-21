@@ -35,6 +35,17 @@ class ChannelIcon::IconFinder
     end
   end
 
+  def find_by_atsc_tuple(tsid,major,minor)
+    iconQuery = ChannelIcon::IconRecord.new
+    iconQuery.query = 'atsc'
+    atsc = ChannelIcon::AtscId.find_by_atsc_tuple(tsid,major,minor).first
+    if !atsc.nil?
+      @icon = iconQuery.find_by_icon_id(atsc.icon_id)
+    else
+      @icon = iconQuery.not_found
+    end
+  end
+
   def find_missing(q)
     # each CSV row contains
     # chanid, name, xmltvid, callsign, transportid, atscmajor, atscminor, networkid, serviceid
@@ -56,6 +67,13 @@ class ChannelIcon::IconFinder
       end
       if !(tsid == 0 && netid == 0 && serviceid == 0)
         icon = self.find_by_dvb_tuple(netid,tsid,serviceid)
+        if icon.found
+          icon.chanid = chanid
+          @icons.push(icon)
+        end
+      end
+      if !(tsid == 0 && atscmajor == 0 && atscminor == 0)
+        icon = self.find_by_atsc_tuple(tsid,atscmajor,atscminor)
         if icon.found
           icon.chanid = chanid
           @icons.push(icon)
