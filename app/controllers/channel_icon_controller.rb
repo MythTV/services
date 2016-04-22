@@ -2,10 +2,10 @@ class ChannelIconController < ApplicationController
   skip_before_action :verify_authenticity_token  # else POST requests to the API fail CSRF checks
   require 'csv'
   def ping
-    render plain:
     # Current service returns time since epoch in seconds
     # but this will do for now, and is nicer
     @current = Time.current()
+    respond_to :text
   end
 
   def lookup
@@ -36,6 +36,7 @@ class ChannelIconController < ApplicationController
       m_Query = ChannelIcon::IconFinder.new
       @icons |= m_Query.find_missing("#{params[:csv]}")
     end
+    respond_to :text
   end
 
   def search
@@ -75,6 +76,7 @@ class ChannelIconController < ApplicationController
       (name, xmltvid, callsign, transportid, atscmajor, atscminor, networkid, serviceid) =
         CSV.parse("#{params[:csv]}")
     end
+    respond_to :text
   end
 
   def master_iconmap
