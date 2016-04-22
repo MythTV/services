@@ -10,7 +10,6 @@ class ChannelIconController < ApplicationController
 
   def lookup
     # TODO: validate parameters.
-    # TODO: respond with json when requested
     # TODO: lookup via atsc and dvb tuples
     if params[:callsign]
       m_Query = ChannelIcon::IconFinder.new
@@ -20,6 +19,7 @@ class ChannelIconController < ApplicationController
       m_Query = ChannelIcon::IconFinder.new
       @icon = m_Query.find_by_xmltvid(params[:xmltvid])
     end
+    respond_to :text, :json
   end
 
   def check_block
