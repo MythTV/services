@@ -10,7 +10,6 @@ class ChannelIconController < ApplicationController
 
   def lookup
     # TODO: validate parameters.
-    # TODO: lookup via atsc and dvb tuples
     if params[:callsign]
       m_Query = ChannelIcon::IconFinder.new
       @icon = m_Query.find_by_callsign(params[:callsign])
@@ -18,6 +17,18 @@ class ChannelIconController < ApplicationController
     if params[:xmltvid]
       m_Query = ChannelIcon::IconFinder.new
       @icon = m_Query.find_by_xmltvid(params[:xmltvid])
+    end
+    if params[:networkid] && params[:transportid] && params[:serviceid]
+      m_Query = ChannelIcon::IconFinder.new
+      @icon = m_Query.find_by_dvb_tuple("#{params[:networkid]}",
+                                        "#{params[:transportid]}",
+                                        "#{params[:serviceid]}")
+    end
+    if params[:transportid] && params[:atsc_major_chan] && params[:atsc_minor_chan]
+      m_Query = ChannelIcon::IconFinder.new
+      @icon = m_Query.find_by_atsc_tuple("#{params[:transportid]}",
+                                         "#{params[:atsc_major_chan]}",
+                                         "#{params[:atsc_minor_chan]}")
     end
     respond_to :text, :json
   end
