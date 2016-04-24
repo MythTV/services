@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
   match 'channel-icon/checkblock', to: 'channel_icon#check_block', via: [:get, :head ]
-  match 'channel-icon/findmissing', to: 'channel_icon#find_missing', via: [:get, :head ]
-  match 'channel-icon/lookup', to: 'channel_icon#lookup', via: [:get, :head ]
+  match 'channel-icon/findmissing', to: 'channel_icon#find_missing', via: [:get, :post ]
+  match 'channel-icon/lookup', to: 'channel_icon#lookup', via: [:get, :post ]
   match 'channel-icon/master.iconmap', to: 'channel_icon#master_iconmap', via: [:get, :head ]
   match 'channel-icon/ping', to: 'channel_icon#ping', via: [:get ]
-  match 'channel-icon/search', to: 'channel_icon#search', via: [:get, :head ]
+  match 'channel-icon/search', to: 'channel_icon#search', via: [:get, :post ]
   match 'channel-icon/sources', to: 'channel_icon/sources#index', via: [:get, :head ]
   match 'channel-icon/submit', to: 'channel_icon#submit', via: [:post ]
 
