@@ -91,6 +91,8 @@ class ChannelIconController < ApplicationController
   end
 
   def master_iconmap
+    m_Query = ChannelIcon::MasterIconmap.new
+    @iconmappings = m_Query.buildmap
   end
 
   def submit
