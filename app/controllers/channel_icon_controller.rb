@@ -5,6 +5,9 @@ class ChannelIconController < ApplicationController
     # Current service returns time since epoch in seconds
     # but this will do for now, and is nicer
     @current = Time.current()
+    if request.format == :html
+      request.format = :text
+    end
     respond_to :text
   end
 
@@ -30,6 +33,9 @@ class ChannelIconController < ApplicationController
                                          "#{params[:atsc_major_chan]}",
                                          "#{params[:atsc_minor_chan]}")
     end
+    if request.format == :html
+      request.format = :text
+    end
     respond_to :text, :json
   end
 
@@ -46,6 +52,9 @@ class ChannelIconController < ApplicationController
     if params[:csv] && !params[:csv].empty?
       m_Query = ChannelIcon::IconFinder.new
       @icons |= m_Query.find_missing("#{params[:csv]}")
+    end
+    if request.format == :html
+      request.format = :text
     end
     respond_to :text
   end
@@ -86,6 +95,9 @@ class ChannelIconController < ApplicationController
     if params[:csv] && !params[:csv].empty?
       (name, xmltvid, callsign, transportid, atscmajor, atscminor, networkid, serviceid) =
         CSV.parse("#{params[:csv]}")
+    end
+    if request.format == :html
+      request.format = :text
     end
     respond_to :text
   end
