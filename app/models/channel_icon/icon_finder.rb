@@ -82,4 +82,23 @@ class ChannelIcon::IconFinder
     end
     return @icons
   end
+
+  def search(q)
+    @icons = []
+    ################################
+    # Multi pass searching
+    # Pass 1: Straight lookup
+    @icons |= ChannelIcon::Icon.name_is("#{q}")
+    # Pass 2: Starts with the search string
+    @icons |= ChannelIcon::Icon.name_startswith("#{q}").order(:name)
+    # Pass 3: Contains the search string
+    @icons |= ChannelIcon::Icon.name_contains("#{q}").order(:name)
+    # Pass 4: Pull apart the search string looking for bits of it,
+    # excluding commonly used words and plain numbers
+    "#{q}".split.each do |q|
+      next if q.match(/^([[:digit:]]+|a|fox|sky|the|tv|channel|sports|one|two|three|four|hd)$/i)
+      @icons |= ChannelIcon::Icon.name_contains(q).order(:name)
+    end
+    return @icons
+  end
 end

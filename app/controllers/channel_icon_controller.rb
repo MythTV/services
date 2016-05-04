@@ -76,21 +76,8 @@ class ChannelIconController < ApplicationController
       # - Find the icons from the callsigns
       #@icons = ChannelIcon::Icon.find_by_icon_id(callsigns)
       ################################
-
-      ################################
-      # Multi pass searching
-      # Pass 1: Straight lookup
-      @icons |= ChannelIcon::Icon.name_is("#{params[:s]}")
-      # Pass 2: Starts with the search string
-      @icons |= ChannelIcon::Icon.name_startswith("#{params[:s]}").order(:name)
-      # Pass 3: Contains the search string
-      @icons |= ChannelIcon::Icon.name_contains("#{params[:s]}").order(:name)
-      # Pass 4: Pull apart the search string looking for bits of it,
-      # excluding commonly used words and plain numbers
-      "#{params[:s]}".split.each do |q|
-        next if q.match(/^([[:digit:]]+|a|fox|sky|the|tv|channel|sports|one|two|three|four|hd)$/i)
-        @icons |= ChannelIcon::Icon.name_contains(q).order(:name)
-      end
+      m_Query = ChannelIcon::IconFinder.new
+      @icons |= m_Query.search("#{params[:s]}")
     end
     if params[:csv] && !params[:csv].empty?
       (name, xmltvid, callsign, transportid, atscmajor, atscminor, networkid, serviceid) =
