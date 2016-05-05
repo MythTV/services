@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  match 'channel-icon/checkblock', to: 'channel_icon#check_block', via: [:get, :head ]
+  match 'channel-icon/checkblock', to: 'channel_icon#check_block', via: [:get, :post ]
   match 'channel-icon/findmissing', to: 'channel_icon#find_missing', via: [:get, :post ]
   match 'channel-icon/lookup', to: 'channel_icon#lookup', via: [:get, :post ]
   match 'channel-icon/master-iconmap', to: 'channel_icon#master_iconmap', via: [:get, :head ]

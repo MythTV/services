@@ -83,6 +83,27 @@ class ChannelIcon::IconFinder
     return @icons
   end
 
+  def is_blocked?(q)
+    # CSV row contains
+    # chanid, name, xmltvid, callsign, transportid, atscmajor, atscminor, networkid, serviceid
+    CSV.parse(q) do |query|
+      chanid = query[0]; name = query[1]; xmltvid = query[2]; callsign = query[3]; tsid = query[4]
+      atscmajor = query[5]; atscminor = query[6]; netid = query[7]; serviceid = query[8]
+      if ChannelIcon::BlockedXmltvid.exists?(xmltvid: xmltvid)
+        return "xmltvid"
+      elsif ChannelIcon::BlockedCallsign.exists?(callsign: callsign)
+        return "callsign"
+      elsif !(tsid == 0 && netid == 0 && serviceid == 0) &&
+        ChannelIcon::BlockedDvbId.find_by_dvb_tuple(netid,tsid,serviceid).exists?
+        return "dvb"
+      elsif !(tsid == 0 && atscmajor == 0 && atscminor == 0) &&
+        ChannelIcon::BlockedAtscId.find_by_atsc_tuple(tsid,atscmajor,atscminor).exists?
+        return "atsc"
+      end
+    end
+    return nil
+  end
+
   def search(q)
     @icons = []
     ################################

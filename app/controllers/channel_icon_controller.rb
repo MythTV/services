@@ -40,6 +40,12 @@ class ChannelIconController < ApplicationController
   end
 
   def check_block
+    m_Query = ChannelIcon::IconFinder.new
+    @blocked = m_Query.is_blocked?("#{params[:csv]}")
+    if request.format == :html
+      request.format = :text
+    end
+    respond_to :text
   end
 
   def find_missing
