@@ -77,17 +77,9 @@ class ChannelIconController < ApplicationController
       ################################
       # NOTE: This in theory should lookup the callsign table, but the existing
       # code does not do this, so initially implement a compatible lookup
-      # - Find the callsigns
-      #callsigns = ChannelIcon::Callsign.where("callsign LIKE ?", "%#{params[:s]}%")
-      # - Find the icons from the callsigns
-      #@icons = ChannelIcon::Icon.find_by_icon_id(callsigns)
       ################################
       m_Query = ChannelIcon::IconFinder.new
-      @icons |= m_Query.search("#{params[:s]}")
-    end
-    if params[:csv] && !params[:csv].empty?
-      (name, xmltvid, callsign, transportid, atscmajor, atscminor, networkid, serviceid) =
-        CSV.parse("#{params[:csv]}")
+      @icons |= m_Query.search("#{params[:s]}","#{params[:csv]}")
     end
     if request.format == :html
       request.format = :text

@@ -89,36 +89,65 @@ class ChannelIcon::IconFinder
     CSV.parse(q) do |query|
       chanid = query[0]; name = query[1]; xmltvid = query[2]; callsign = query[3]; tsid = query[4]
       atscmajor = query[5]; atscminor = query[6]; netid = query[7]; serviceid = query[8]
-      if ChannelIcon::BlockedXmltvid.exists?(xmltvid: xmltvid)
+      if ChannelIcon::BlockedXmltvid.exists?(xmltvid: xmltvid, icon_id: chanid)
         return "xmltvid"
-      elsif ChannelIcon::BlockedCallsign.exists?(callsign: callsign)
+      elsif ChannelIcon::BlockedCallsign.exists?(callsign: callsign, icon_id: chanid)
         return "callsign"
       elsif !(tsid == 0 && netid == 0 && serviceid == 0) &&
-        ChannelIcon::BlockedDvbId.find_by_dvb_tuple(netid,tsid,serviceid).exists?
+        ChannelIcon::BlockedDvbId.find_by_dvb_tuple(netid,tsid,serviceid).exists?(icon_id: chanid)
         return "dvb"
       elsif !(tsid == 0 && atscmajor == 0 && atscminor == 0) &&
-        ChannelIcon::BlockedAtscId.find_by_atsc_tuple(tsid,atscmajor,atscminor).exists?
+        ChannelIcon::BlockedAtscId.find_by_atsc_tuple(tsid,atscmajor,atscminor).exists?(icon_id: chanid)
         return "atsc"
       end
     end
     return nil
   end
 
-  def search(q)
+  def is_blocked(icon, csv)
+    blockedcsv = '"' + icon.iconID + '",' + csv.to_s
+    return is_blocked?(blockedcsv)
+  end
+
+  def search(q, csv)
+    # csv is used to validate if the icon is blocked or not
+    # csv= which has the following data escaped
+    # - Name, Xmltvid, Callsign, TransportId, AtscMajorChan, AtscMinorChan,
+    # - NetworkId, ServiceId
     @icons = []
     ################################
     # Multi pass searching
     # Pass 1: Straight lookup
-    @icons |= ChannelIcon::Icon.name_is("#{q}")
+    records = ChannelIcon::Icon.name_is("#{q}")
+    records.each do |icon|
+      if !is_blocked(icon, csv)
+        @icons.push(icon)
+      end
+    end
     # Pass 2: Starts with the search string
-    @icons |= ChannelIcon::Icon.name_startswith("#{q}").order(:name)
+    records = ChannelIcon::Icon.name_startswith("#{q}").order(:name)
+    records.each do |icon|
+      if !is_blocked(icon, csv)
+        @icons.push(icon)
+      end
+    end
     # Pass 3: Contains the search string
-    @icons |= ChannelIcon::Icon.name_contains("#{q}").order(:name)
+    records = ChannelIcon::Icon.name_contains("#{q}").order(:name)
+    records.each do |icon|
+      if !is_blocked(icon, csv)
+        @icons.push(icon)
+      end
+    end
     # Pass 4: Pull apart the search string looking for bits of it,
     # excluding commonly used words and plain numbers
     "#{q}".split.each do |q|
       next if q.match(/^([[:digit:]]+|a|fox|sky|the|tv|channel|sports|one|two|three|four|hd)$/i)
-      @icons |= ChannelIcon::Icon.name_contains(q).order(:name)
+      records = ChannelIcon::Icon.name_contains(q).order(:name)
+      records.each do |icon|
+        if !is_blocked(icon, csv)
+          @icons.push(icon)
+        end
+      end
     end
     return @icons
   end
