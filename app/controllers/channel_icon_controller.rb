@@ -93,5 +93,13 @@ class ChannelIconController < ApplicationController
   end
 
   def submit
+    if params[:csv] && !params[:csv].empty?
+      m_Query = ChannelIcon::IconSubmit.new
+      @stats = m_Query.submit("#{params[:csv]}", request.remote_ip)
+    end
+    if request.format == :html
+      request.format = :text
+    end
+    respond_to :text
   end
 end
