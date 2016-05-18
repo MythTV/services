@@ -65,14 +65,14 @@ class ChannelIcon::IconFinder
         @icons.push(icon)
         next
       end
-      if !(tsid == 0 && netid == 0 && serviceid == 0)
+      if (tsid.to_i > 0 && netid.to_i > 0 && serviceid.to_i > 0)
         icon = self.find_by_dvb_tuple(netid,tsid,serviceid)
         if icon.found
           icon.chanid = chanid
           @icons.push(icon)
         end
       end
-      if !(tsid == 0 && atscmajor == 0 && atscminor == 0)
+      if (tsid.to_i > 0 && atscmajor.to_i > 0 && atscminor.to_i > 0)
         icon = self.find_by_atsc_tuple(tsid,atscmajor,atscminor)
         if icon.found
           icon.chanid = chanid
@@ -93,10 +93,10 @@ class ChannelIcon::IconFinder
         return "xmltvid"
       elsif ChannelIcon::BlockedCallsign.exists?(callsign: callsign, icon_id: chanid)
         return "callsign"
-      elsif !(tsid == 0 && netid == 0 && serviceid == 0) &&
+      elsif (tsid.to_i > 0 && netid.to_i > 0 && serviceid.to_i > 0) &&
         ChannelIcon::BlockedDvbId.find_by_dvb_tuple(netid,tsid,serviceid).exists?(icon_id: chanid)
         return "dvb"
-      elsif !(tsid == 0 && atscmajor == 0 && atscminor == 0) &&
+      elsif (tsid.to_i > 0 && atscmajor.to_i > 0 && atscminor.to_i > 0) &&
         ChannelIcon::BlockedAtscId.find_by_atsc_tuple(tsid,atscmajor,atscminor).exists?(icon_id: chanid)
         return "atsc"
       end
