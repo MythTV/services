@@ -41,6 +41,7 @@ class ChannelIcon::IconRecord
   def to_fullUrl(source_id, icon)
     source = ChannelIcon::Source.find_by_source_id(source_id)
     url = source.url + '/' + icon
-    @fullUrl = url.sub(%r|logo/hires|, 'hires')
+    @fullUrl = url.sub(%r|icon/tv|, 'hires')
+    @fullUrl = url.sub(%r|logo/tv|, 'hires')
   end
 end
