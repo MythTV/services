@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+#  namespace :channel_icon do
+#  get 'editor/index'
+#  end
+
   match 'channel-icon/checkblock', to: 'channel_icon#check_block', via: [:get, :post ]
   match 'channel-icon/findmissing', to: 'channel_icon#find_missing', via: [:get, :post ]
   match 'channel-icon/lookup', to: 'channel_icon#lookup', via: [:get, :post ]
@@ -7,6 +11,7 @@ Rails.application.routes.draw do
   match 'channel-icon/search', to: 'channel_icon#search', via: [:get, :post ]
   match 'channel-icon/sources', to: 'channel_icon/sources#index', via: [:get, :head ]
   match 'channel-icon/submit', to: 'channel_icon#submit', via: [:post ]
+  match 'channel-icon/edit', to: 'channel_icon/editor#index', via: [:get]
 
   namespace :music do
     match 'data/index', to: 'data#index', via: [:get, :head ]

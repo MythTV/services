@@ -1,0 +1,2 @@
+module ChannelIcon::EditorHelper
+end
