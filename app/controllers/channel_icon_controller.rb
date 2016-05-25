@@ -33,7 +33,11 @@ class ChannelIconController < ApplicationController
                                          "#{params[:atsc_major_chan]}",
                                          "#{params[:atsc_minor_chan]}")
     end
-    Rails.logger.info "  Found #{@icons.length} icon(s)"
+    if @icon.found
+      Rails.logger.info "  Found an icon match"
+    else
+      Rails.logger.info "  No matching icon found"
+    end
     if request.format == :html
       request.format = :text
     end
