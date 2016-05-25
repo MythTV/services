@@ -33,6 +33,7 @@ class ChannelIconController < ApplicationController
                                          "#{params[:atsc_major_chan]}",
                                          "#{params[:atsc_minor_chan]}")
     end
+    Rails.logger.info "  Found #{@icons.length} icon(s)"
     if request.format == :html
       request.format = :text
     end
@@ -59,6 +60,7 @@ class ChannelIconController < ApplicationController
       m_Query = ChannelIcon::IconFinder.new
       @icons |= m_Query.find_missing("#{params[:csv]}")
     end
+    Rails.logger.info "  Found #{@icons.length} icon(s)"
     if request.format == :html
       request.format = :text
     end
@@ -81,6 +83,7 @@ class ChannelIconController < ApplicationController
       m_Query = ChannelIcon::IconFinder.new
       @icons |= m_Query.search("#{params[:s]}","#{params[:csv]}")
     end
+    Rails.logger.info "  Found #{@icons.length} icon(s)"
     if request.format == :html
       request.format = :text
     end
@@ -97,6 +100,7 @@ class ChannelIconController < ApplicationController
       m_Query = ChannelIcon::IconSubmit.new
       @stats = m_Query.submit("#{params[:csv]}", request.remote_ip)
     end
+    Rails.logger.info "  Submitted a:#{@stats[:atsc].to_s}, c:#{@stats[:callsign].to_s}, d:#{@stats[:dvb].to_s}, t:#{@stats[:total].to_s}, x:#{@stats[:xmltvid].to_s} icon(s)"
     if request.format == :html
       request.format = :text
     end
