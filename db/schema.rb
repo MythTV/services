@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160119223446) do
+ActiveRecord::Schema.define(version: 20160525143633) do
 
   create_table "atsc_ids", id: false, force: :cascade do |t|
     t.integer "transportid"
@@ -47,8 +47,9 @@ ActiveRecord::Schema.define(version: 20160119223446) do
 
   add_index "blocked_dvb_ids", ["transportid", "networkid", "serviceid", "icon_id"], name: "b_dvb_idx", unique: true
 
-  create_table "blocked_ips", primary_key: "ip", force: :cascade do |t|
-    t.integer "expire"
+  create_table "blocked_ips", force: :cascade do |t|
+    t.integer "ip",     limit: 8
+    t.integer "expire", limit: 8
     t.integer "user"
     t.integer "reason"
   end
@@ -60,12 +61,11 @@ ActiveRecord::Schema.define(version: 20160119223446) do
 
   add_index "blocked_xmltvids", ["xmltvid", "icon_id"], name: "b_xmltvid_idx", unique: true
 
-  create_table "callsigns", id: false, force: :cascade do |t|
-    t.text    "callsign"
+  create_table "callsigns", primary_key: "callsign", force: :cascade do |t|
     t.integer "icon_id"
   end
 
-  add_index "callsigns", ["callsign"], name: "callsigns_idx", unique: true
+  add_index "callsigns", ["callsign"], name: "sqlite_autoindex_callsigns_1", unique: true
 
   create_table "db_vers", id: false, force: :cascade do |t|
     t.integer "vers"
@@ -90,8 +90,8 @@ ActiveRecord::Schema.define(version: 20160119223446) do
 
   add_index "icons", ["source_id", "source_tag"], name: "index_icons_on_source_id_and_source_tag", unique: true
 
-  create_table "pending_atsc", id: false, force: :cascade do |t|
-    t.integer "ip"
+  create_table "pending_atsc", force: :cascade do |t|
+    t.integer "ip",          limit: 8
     t.integer "transportid"
     t.integer "major_chan"
     t.integer "minor_chan"
@@ -101,8 +101,8 @@ ActiveRecord::Schema.define(version: 20160119223446) do
 
   add_index "pending_atsc", ["transportid", "major_chan", "minor_chan", "ip"], name: "pa_idx", unique: true
 
-  create_table "pending_callsign", id: false, force: :cascade do |t|
-    t.integer "ip"
+  create_table "pending_callsign", force: :cascade do |t|
+    t.integer "ip",       limit: 8
     t.text    "callsign"
     t.text    "channame"
     t.integer "icon_id"
@@ -110,8 +110,8 @@ ActiveRecord::Schema.define(version: 20160119223446) do
 
   add_index "pending_callsign", ["callsign", "ip"], name: "pc_idx", unique: true
 
-  create_table "pending_dvb", id: false, force: :cascade do |t|
-    t.integer "ip"
+  create_table "pending_dvb", force: :cascade do |t|
+    t.integer "ip",          limit: 8
     t.integer "transportid"
     t.integer "networkid"
     t.integer "serviceid"
@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(version: 20160119223446) do
   add_index "pending_dvb", ["transportid", "networkid", "serviceid", "ip"], name: "pd_idx", unique: true
 
   create_table "pending_xmltvid", force: :cascade do |t|
-    t.integer "ip"
+    t.integer "ip",       limit: 8
     t.text    "xmltvid"
     t.text    "channame"
     t.integer "icon_id"
@@ -135,11 +135,10 @@ ActiveRecord::Schema.define(version: 20160119223446) do
     t.text "url"
   end
 
-  create_table "xmltvids", id: false, force: :cascade do |t|
-    t.text    "xmltvid"
+  create_table "xmltvids", primary_key: "xmltvid", force: :cascade do |t|
     t.integer "icon_id"
   end
 
-  add_index "xmltvids", ["xmltvid"], name: "xmltvids_idx", unique: true
+  add_index "xmltvids", ["xmltvid"], name: "sqlite_autoindex_xmltvids_1", unique: true
 
 end
