@@ -20,7 +20,7 @@ class ChannelIcon::IconSubmit
             @stats[:callsign] += 1
           end
         rescue ActiveRecord::RecordNotUnique => e
-          Rails.logger.info "Already know about #{name} (Callsign #{callsign}), icon_id: #{iconid} from ip #{ip.to_s} (#{ip.to_i})"
+          Rails.logger.info "  Already know about #{name} (Callsign #{callsign}), icon_id: #{iconid} from ip #{ip.to_s} (#{ip.to_i})"
         end
       end
       if !xmltvid.empty?
@@ -31,7 +31,7 @@ class ChannelIcon::IconSubmit
             @stats[:xmltvid] += 1
           end
         rescue ActiveRecord::RecordNotUnique => e
-          Rails.logger.info "Already know about #{name} (xmltvid #{xmltvid}), icon_id: #{iconid} from ip #{ip.to_s} (#{ip.to_i})"
+          Rails.logger.info "  Already know about #{name} (xmltvid #{xmltvid}), icon_id: #{iconid} from ip #{ip.to_s} (#{ip.to_i})"
         end
       end
       if (tsid.to_i > 0 && netid.to_i > 0 && serviceid.to_i > 0)
@@ -43,7 +43,7 @@ class ChannelIcon::IconSubmit
             @stats[:dvb] += 1
           end
         rescue ActiveRecord::RecordNotUnique => e
-          Rails.logger.info "Already know about #{name} (DVB #{netid}:#{tsid}:#{serviceid}), icon_id: #{iconid} from ip #{ip.to_s} (#{ip.to_i})"
+          Rails.logger.info "  Already know about #{name} (DVB #{netid}:#{tsid}:#{serviceid}), icon_id: #{iconid} from ip #{ip.to_s} (#{ip.to_i})"
         end
       end
       if (tsid.to_i > 0 && atscmajor.to_i > 0 && atscminor.to_i > 0)
@@ -55,7 +55,7 @@ class ChannelIcon::IconSubmit
             @stats[:atsc] += 1
           end
         rescue ActiveRecord::RecordNotUnique => e
-          Rails.logger.info "Already know about #{name} (ATSC #{tsid}:#{atscmajor}:#{atscminor}), icon_id: #{iconid} from ip #{ip.to_s} (#{ip.to_i})"
+          Rails.logger.info "  Already know about #{name} (ATSC #{tsid}:#{atscmajor}:#{atscminor}), icon_id: #{iconid} from ip #{ip.to_s} (#{ip.to_i})"
         end
       end
     end
