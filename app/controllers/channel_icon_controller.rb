@@ -97,6 +97,10 @@ class ChannelIconController < ApplicationController
   def master_iconmap
     m_Query = ChannelIcon::MasterIconmap.new
     @iconmappings = m_Query.buildmap
+    if request.format == :html || request.format == :text
+      request.format = :xml
+    end
+    respond_to :xml
   end
 
   def submit
