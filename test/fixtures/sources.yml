@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: Logo1
+  name: Source1
   url: http://logo1.com/baseurl
 
 two:
-  name: Logo2
+  name: Source2
   url: http://logo2.com/baseurl
