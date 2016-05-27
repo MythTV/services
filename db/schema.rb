@@ -80,7 +80,8 @@ ActiveRecord::Schema.define(version: 20160525143633) do
 
   add_index "dvb_ids", ["transportid", "networkid", "serviceid"], name: "dvb_idx", unique: true
 
-  create_table "icons", force: :cascade do |t|
+  create_table "icons", id: false, force: :cascade do |t|
+    t.primary_key "icon_id"
     t.integer "source_id"
     t.text    "source_tag"
     t.text    "name"
