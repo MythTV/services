@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20160525143633) do
     t.integer "icon_id"
   end
 
-  add_index "callsigns", ["callsign"], name: "sqlite_autoindex_callsigns_1", unique: true
+  add_index "callsigns", ["callsign"], name: "callsigns_idx", unique: true
 
   create_table "db_vers", id: false, force: :cascade do |t|
     t.integer "vers"
@@ -139,6 +139,6 @@ ActiveRecord::Schema.define(version: 20160525143633) do
     t.integer "icon_id"
   end
 
-  add_index "xmltvids", ["xmltvid"], name: "sqlite_autoindex_xmltvids_1", unique: true
+  add_index "xmltvids", ["xmltvid"], name: "xmltvids_idx", unique: true
 
 end
