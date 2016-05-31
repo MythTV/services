@@ -19,12 +19,12 @@ class ChannelIcon::IconSubmit
       @stats[:total] += 1
       if !callsign.empty?
         begin
-          icon = ChannelIcon::PendingCallsign.find_or_create_by(icon_id: iconid, callsign: callsign, channame: name, ip: ip.to_i)
-          if icon.valid?
-            icon.save
-          end
+          icon = ChannelIcon::PendingCallsign.find_or_initialize_by(icon_id: iconid, callsign: callsign, channame: name, ip: ip.to_i)
           if icon.new_record?
             @stats[:callsign] += 1
+          end
+          if icon.valid?
+            icon.save
           end
         rescue ActiveRecord::RecordNotUnique => e
           Rails.logger.info "  Already know about #{name} (Callsign #{callsign}), icon_id: #{iconid} from ip #{ip.to_s} (#{ip.to_i})"
@@ -32,12 +32,12 @@ class ChannelIcon::IconSubmit
       end
       if !xmltvid.empty?
         begin
-          icon = ChannelIcon::PendingXmltvid.find_or_create_by(icon_id: iconid, xmltvid: xmltvid, channame: name, ip: ip.to_i)
-          if icon.valid?
-            icon.save
-          end
+          icon = ChannelIcon::PendingXmltvid.find_or_initialize_by(icon_id: iconid, xmltvid: xmltvid, channame: name, ip: ip.to_i)
           if icon.new_record?
             @stats[:xmltvid] += 1
+          end
+          if icon.valid?
+            icon.save
           end
         rescue ActiveRecord::RecordNotUnique => e
           Rails.logger.info "  Already know about #{name} (xmltvid #{xmltvid}), icon_id: #{iconid} from ip #{ip.to_s} (#{ip.to_i})"
@@ -45,13 +45,13 @@ class ChannelIcon::IconSubmit
       end
       if (tsid.to_i > 0 && netid.to_i > 0 && serviceid.to_i > 0)
         begin
-          icon = ChannelIcon::PendingDvb.find_or_create_by(icon_id: iconid, transportid: tsid, networkid: netid,
+          icon = ChannelIcon::PendingDvb.find_or_initialize_by(icon_id: iconid, transportid: tsid, networkid: netid,
             serviceid: serviceid, channame: name, ip: ip.to_i)
-          if icon.valid?
-            icon.save
-          end
           if icon.new_record?
             @stats[:dvb] += 1
+          end
+          if icon.valid?
+            icon.save
           end
         rescue ActiveRecord::RecordNotUnique => e
           Rails.logger.info "  Already know about #{name} (DVB #{netid}:#{tsid}:#{serviceid}), icon_id: #{iconid} from ip #{ip.to_s} (#{ip.to_i})"
@@ -59,13 +59,13 @@ class ChannelIcon::IconSubmit
       end
       if (tsid.to_i > 0 && atscmajor.to_i > 0 && atscminor.to_i > 0)
         begin
-          icon = ChannelIcon::PendingAtsc.find_or_create_by(icon_id: iconid, transportid: tsid, major_chan: atscmajor,
+          icon = ChannelIcon::PendingAtsc.find_or_initialize_by(icon_id: iconid, transportid: tsid, major_chan: atscmajor,
             minor_chan: atscminor, channame: name, ip: ip.to_i)
-          if icon.valid?
-            icon.save
-          end
           if icon.new_record?
             @stats[:atsc] += 1
+          end
+          if icon.valid?
+            icon.save
           end
         rescue ActiveRecord::RecordNotUnique => e
           Rails.logger.info "  Already know about #{name} (ATSC #{tsid}:#{atscmajor}:#{atscminor}), icon_id: #{iconid} from ip #{ip.to_s} (#{ip.to_i})"
