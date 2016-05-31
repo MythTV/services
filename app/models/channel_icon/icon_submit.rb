@@ -1,10 +1,15 @@
 class ChannelIcon::IconSubmit
   require 'csv'
   require 'ipaddr'
+  def initialize
+    @stats = {atsc: 0, callsign: 0, dvb: 0, total: 0, xmltvid: 0}
+  end
+  def stats
+    return @stats
+  end
   def submit(csv, ip_in)
     # TODO: Blocked ip / icon etc support
     # Statistics
-    @stats = {atsc: 0, callsign: 0, dvb: 0, total: 0, xmltvid: 0}
     ip = IPAddr.new(ip_in)
     # each CSV row contains
     # iconid, name, xmltvid, callsign, transportid, atscmajor, atscminor, networkid, serviceid

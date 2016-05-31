@@ -31,8 +31,8 @@ class ChannelIconControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get submit" do
-    get :submit
+  test "should post submit" do
+    post :submit
     assert_response :success
   end
 
