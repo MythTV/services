@@ -4,7 +4,10 @@ class ChannelIcon::Icon < ActiveRecord::Base
   has_many      :callsigns
   has_many      :xmltvids
 
-  validates     :source, :presence => true
+  validates     :enabled,   :presence => true
+  validates     :icon,      :presence => true
+  validates     :name,      :presence => true
+  validates     :source_id, :presence => true
 
   scope :name_contains, ->(name) { where("enabled = 1 AND name LIKE ?", "%#{name}%") }
   scope :name_is, ->(name) { where("enabled = 1 AND name = ?", "#{name}") }
