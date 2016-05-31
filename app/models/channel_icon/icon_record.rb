@@ -14,10 +14,15 @@ class ChannelIcon::IconRecord
   # Finder methods
   def find_by_icon_id(id)
     icon = ChannelIcon::Icon.find_by_icon_id(id)
-    @iconID = icon.icon_id.to_s
-    @iconName = icon.name
-    @fullUrl = self.to_fullUrl(icon.source_id, icon.icon)
-    @icon = self
+    if icon.nil?
+      @icon = self.not_found
+      Rails.logger.error "Reference to non existing icon #{id}"
+    else
+      @iconID = icon.icon_id.to_s
+      @iconName = icon.name
+      @fullUrl = self.to_fullUrl(icon.source_id, icon.icon)
+      @icon = self
+    end
   end
 
   # Error methods
