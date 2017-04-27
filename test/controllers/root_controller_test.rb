@@ -1,9 +1,9 @@
 require 'test_helper'
 
 class RootControllerTest < ActionController::TestCase
-  test "index should redirect" do
+  test "index should succeed" do
     get :index
-    assert_response :redirect
+    assert_response :success
   end
 
 end
