@@ -2,7 +2,7 @@
 
 one:
   name: icon1
-  source_id: Source1
+  source_id: 1
   source_tag: source1_tag
   icon: path/to/logo.png
   enabled: 1

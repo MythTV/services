@@ -1,9 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+Source1:
+  source_id: 1
   name: Source1
   url: http://logo1.com/baseurl
 
-two:
+Source2:
+  source_id: 2
   name: Source2
   url: http://logo2.com/baseurl
