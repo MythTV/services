@@ -15,9 +15,15 @@ require 'test_helper'
 ###################
 
 class IconFinderTest < ActiveSupport::TestCase
-  test "Invalid ID should return not found" do
+  test "Invalid Callsign should return not found" do
     iconfinder = ChannelIcon::IconFinder.new
-#    iconrecord.find_by_icon_id(99999)
-#    assert iconrecord.instance_variable_get(:@found) == false, "Error when not finding icon #{iconrecord.inspect}"
+    iconfinder.find_by_callsign("not_found")
+    assert_nil iconfinder.instance_variable_get(:@found), "Error when not finding icon #{iconfinder.inspect}"
+  end
+
+  test "Find icon by callsign" do
+    iconfinder = ChannelIcon::IconFinder.new
+    iconfinder.find_by_callsign("icon1")
+    assert iconfinder.instance_variable_get(:@icon), "Error finding icon #{iconfinder.inspect}"
   end
 end
