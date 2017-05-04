@@ -14,6 +14,7 @@ class ChannelIcon::MasterIconmap
     @networktourls = []
     callsigns.each do |callsign|
       icon = ChannelIcon::Icon.find_by_icon_id(callsign.icon_id)
+      next if icon.nil?
       network = sourcemap[icon.source_id] + '-' + icon.source_tag
       network_url = '[' + sourcemap[icon.source_id] + ']/' + icon.icon
       @callsigntonetworks.push({ callsign: callsign.callsign, network: network })
