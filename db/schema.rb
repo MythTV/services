@@ -61,7 +61,8 @@ ActiveRecord::Schema.define(version: 20160525143633) do
 
   add_index "blocked_xmltvids", ["xmltvid", "icon_id"], name: "b_xmltvid_idx", unique: true
 
-  create_table "callsigns", primary_key: "callsign", force: :cascade do |t|
+  create_table "callsigns", primary_key: "callsign", id: false, force: :cascade do |t|
+    t.text    "callsign"
     t.integer "icon_id"
   end
 
