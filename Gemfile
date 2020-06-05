@@ -16,6 +16,9 @@ gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 ##gem 'therubyracer', platforms: :ruby
 
+# https://github.com/advisories/GHSA-g6wq-qcwm-j5g2
+gem "websocket-extensions", ">= 0.1.5"
+
 # Patternfly UI library
 #gem 'patternfly-sass'
 # Use jquery as the JavaScript library
