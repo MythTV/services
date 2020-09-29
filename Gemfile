@@ -19,6 +19,9 @@ gem 'uglifier', '>= 1.3.0'
 # https://github.com/advisories/GHSA-g6wq-qcwm-j5g2
 gem "websocket-extensions", ">= 0.1.5"
 
+# https://github.com/advisories/GHSA-jphg-qwrw-7w9g
+gem "json", ">= 2.3.0"
+
 # Patternfly UI library
 #gem 'patternfly-sass'
 # Use jquery as the JavaScript library
@@ -28,7 +31,7 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'sdoc', group: :doc
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
