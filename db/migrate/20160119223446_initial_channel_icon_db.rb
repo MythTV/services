@@ -1,4 +1,4 @@
-class InitialChannelIconDb < ActiveRecord::Migration
+class InitialChannelIconDb < ActiveRecord::Migration[5.2]
   def change
     create_table :atsc_ids, id: false do |t|
       t.integer     :transportid

@@ -2,11 +2,11 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~>5.2.4.6'
+gem 'rails', '~>6.0'
 # Need rake for sassc
 ##gem 'rake'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~>1.3.6'
+gem 'sqlite3'
 # Use SCSS for stylesheets
 #gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -48,7 +48,7 @@ gem 'puma'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

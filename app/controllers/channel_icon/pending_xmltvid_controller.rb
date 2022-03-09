@@ -1,4 +1,4 @@
-class ChannelIcon::PendingXmltvidsController < ApplicationController
+class ChannelIcon::PendingXmltvidController < ApplicationController
   def create
     @xmltvid = ChannelIcon::PendingXmltvids.new(params[:xmltvid])
     @xmltvid.save

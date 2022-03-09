@@ -1,4 +1,4 @@
-class ChangeIpAddressColumns < ActiveRecord::Migration
+class ChangeIpAddressColumns < ActiveRecord::Migration[5.2]
   def change
     # Simply doing a change_column doesn't work as existing data
     # fails the validations.
