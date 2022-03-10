@@ -2,10 +2,11 @@
 # via the various different methods.
 class ChannelIcon::IconFinder
   require 'csv'
+  include ChannelName
   def find_by_callsign(q)
     iconQuery = ChannelIcon::IconRecord.new
     iconQuery.query = 'callsign'
-    callsign = ChannelIcon::Callsign.find_by_callsign(q.downcase)
+    callsign = ChannelIcon::Callsign.find_by_callsign(to_snp(q))
     if !callsign.nil?
       @icon = iconQuery.find_by_icon_id(callsign.icon_id)
     else
@@ -109,12 +110,13 @@ class ChannelIcon::IconFinder
     return is_blocked?(blockedcsv)
   end
 
-  def search(q, csv)
+  def search(query, csv)
     # csv is used to validate if the icon is blocked or not
     # csv= which has the following data escaped
     # - Name, Xmltvid, Callsign, TransportId, AtscMajorChan, AtscMinorChan,
     # - NetworkId, ServiceId
     @icons = []
+    q = to_snp(query)
     ################################
     # Multi pass searching
     # Pass 1: Straight lookup
