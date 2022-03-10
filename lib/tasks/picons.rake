@@ -3,8 +3,6 @@ require 'httparty'
 namespace :picons do
   desc "Load picons mappings"
   task load: :environment do
-    #snp_url = "https://callisto.squashedfrog.net/filebin/snp.index"
-    #srp_url = "https://callisto.squashedfrog.net/filebin/srp.index"
     snp_url = "https://github.com/picons/picons/raw/master/build-source/snp.index"
     srp_url = "https://github.com/picons/picons/raw/master/build-source/srp.index"
     @stats = {icons: 0, callsigns: 0, dvb: 0}
