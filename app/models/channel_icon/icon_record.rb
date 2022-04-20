@@ -2,6 +2,22 @@ class ChannelIcon::IconRecord
   attr_accessor :query, :iconID, :iconName, :fullUrl, :chanid
   attr_reader   :found
 
+  require 'json'
+
+  def as_json(options={})
+    {
+      query:    @query,
+      iconID:   @iconID,
+      iconName: @iconName,
+      fullUrl:  @fullUrl,
+      chanid:   @chanid
+    }
+  end
+
+  def to_json(*options)
+    as_json(*options).to_json(*options)
+  end
+
   def initialize
     @query=""
     @iconID=""
