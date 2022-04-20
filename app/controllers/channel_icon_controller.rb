@@ -91,7 +91,10 @@ class ChannelIconController < ApplicationController
     if request.format == :html
       request.format = :text
     end
-    respond_to :text
+    respond_to do |format|
+      format.text
+      format.json { render json: @icons }
+    end
   end
 
   def master_iconmap
@@ -113,6 +116,9 @@ class ChannelIconController < ApplicationController
     if request.format == :html
       request.format = :text
     end
-    respond_to :text
+    respond_to do |format|
+      format.text
+      format.json { render json: @stats }
+    end
   end
 end
