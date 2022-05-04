@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~>6.1.4.7'
+gem 'rails', '~>6.1.5'
 # Need rake for sassc
 ##gem 'rake'
 # Use sqlite3 as the database for Active Record
