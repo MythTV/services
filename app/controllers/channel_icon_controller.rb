@@ -96,7 +96,7 @@ class ChannelIconController < ApplicationController
     end
     respond_to do |format|
       format.text
-      format.json { render json: @icons }
+      format.json
     end
   end
 
