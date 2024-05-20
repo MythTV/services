@@ -45,6 +45,8 @@ gem 'sdoc', group: :doc
 
 gem 'puma'
 
+gem 'bigdecimal'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
