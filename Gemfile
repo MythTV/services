@@ -1,8 +1,10 @@
 source 'https://rubygems.org'
 
 
+gem 'sprockets-rails'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~>6.1'
+gem 'rails', '~>7.0.0'
 # Need rake for sassc
 ##gem 'rake'
 # Use sqlite3 as the database for Active Record
