@@ -253,4 +253,4 @@ DEPENDENCIES
   websocket-extensions (>= 0.1.5)
 
 BUNDLED WITH
-   2.3.26
+   2.6.3
