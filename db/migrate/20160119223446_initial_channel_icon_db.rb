@@ -61,7 +61,7 @@ class InitialChannelIconDb < ActiveRecord::Migration[5.2]
     end
     add_index :dvb_ids, [:transportid, :networkid, :serviceid], unique: true, name: "dvb_idx"
 
-    create_table :icons do |t|
+    create_table :icons, primary_key: "icon_id" do |t|
       t.integer     :source_id
       t.text        :source_tag
       t.text        :name
@@ -112,7 +112,7 @@ class InitialChannelIconDb < ActiveRecord::Migration[5.2]
       t.text    :url
     end
 
-    create_table :xmltvids, id: false do |t|
+    create_table :xmltvids, primary_key: "xmltvid" do |t|
       t.text    :xmltvid
       t.integer :icon_id
     end
