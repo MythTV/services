@@ -32,8 +32,7 @@ namespace :picons do
         ir.enabled = true
         @stats[:icons] += 1
       end
-      print "#{callsign} is #{snp} with iconid #{icon.id}\n"
-      cs = ChannelIcon::Callsign.where(callsign: callsign).first_or_create do |c|
+      ChannelIcon::Callsign.where(callsign: callsign).first_or_create do |c|
         c.icon_id = icon.id
         @stats[:callsigns] += 1
       end
@@ -66,8 +65,7 @@ namespace :picons do
         ir.enabled = true
         @stats[:icons] += 1
       end
-      print "#{snp} at netid #{netid}, transportid #{tsid}, serviceid #{sid} with iconid #{icon.id}\n"
-      dvb = ChannelIcon::DvbId.where(serviceid: sid, transportid: tsid, networkid: netid).first_or_create do |d|
+      ChannelIcon::DvbId.where(serviceid: sid, transportid: tsid, networkid: netid).first_or_create do |d|
         d.icon_id = icon.id
         @stats[:dvb] += 1
       end
